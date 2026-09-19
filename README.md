@@ -1,8 +1,16 @@
 # PocketPet website
 
+**Live:** <https://pocketpet-web.vercel.app/>
+
 The download and landing page for [PocketPet](https://github.com/vigneshcj001/Pocketpet),
 a desktop pet for Windows, macOS and Linux. The page runs the app's own
 sprites and animations, so the pet you meet here is the one you get.
+
+| | |
+|---|---|
+| Website (this repo) | <https://github.com/vigneshcj001/Pocketpet-web> |
+| App (Tauri / Rust) | <https://github.com/vigneshcj001/Pocketpet> |
+| Downloads | <https://github.com/vigneshcj001/Pocketpet/releases/latest> |
 
 **Stack:** React 19 · TypeScript · Tailwind CSS v4 · Vite. No backend — a
 static `dist/` folder that talks to the GitHub API from the browser.
@@ -142,23 +150,23 @@ node -e "const fs=require('fs');(async()=>{const o={};for(const id of ['cat','du
 
 ## Deploying
 
-`npm run build` produces a static `dist/`. Host it anywhere.
+Hosted on **Vercel** at <https://pocketpet-web.vercel.app/>. Every push to
+`main` on [Pocketpet-web](https://github.com/vigneshcj001/Pocketpet-web)
+triggers a production deploy; pull requests get preview URLs.
 
-**GitHub Pages** (the canonical URL in `index.html` assumes
-`https://vigneshcj001.github.io/Pocketpet/`):
+Vercel settings (auto-detected from the Vite template):
 
-1. If the site is served from a sub-path, set `base: "/Pocketpet/"` in
-   `vite.config.ts`.
-2. Add a workflow that runs `npm ci && npm run build` and deploys `dist/`
-   with `actions/deploy-pages`, or push `dist/` to a `gh-pages` branch.
+| Setting | Value |
+|---|---|
+| Framework | Vite |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Node | 20+ |
 
-**Netlify / Vercel / Cloudflare Pages:** build command `npm run build`,
-output directory `dist`.
-
-Update the `<link rel="canonical">` and `og:image` in `index.html` if the
-site lives at a different origin.
-
----
+No environment variables. `npm run build` produces a static `dist/` that
+also hosts fine on Netlify, Cloudflare Pages or GitHub Pages (for a sub-path
+set `base` in `vite.config.ts` and update `<link rel="canonical">` /
+`og:url` / `og:image` in `index.html`).
 
 ## Notes
 

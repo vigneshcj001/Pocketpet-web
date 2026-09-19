@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PocketPet — a desktop pet that lives on your screen</title>
+    <meta name="description" content="PocketPet is a tiny desktop companion for Windows, macOS and Linux. It follows your cursor, sits on your windows, plays games and can even run errands for you." />
+    <meta property="og:title" content="PocketPet" />
+    <meta property="og:description" content="A desktop pet that follows your cursor, perches on your windows and runs errands. Free for Windows, macOS and Linux." />
+    <meta property="og:image" content="/icon-256.png" />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="canonical" href="https://vigneshcj001.github.io/Pocketpet/" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "PocketPet",
+        "applicationCategory": "DesktopEnhancementApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "A desktop pet that follows your cursor, perches on your windows, plays games and runs errands for you.",
+        "downloadUrl": "https://github.com/vigneshcj001/Pocketpet/releases/latest",
+        "softwareHelp": "https://github.com/vigneshcj001/Pocketpet#readme"
+      }
+    </script>
+    <!-- Apply the saved theme before first paint so there is no flash. -->
+    <script>
+      try {
+        const t = localStorage.getItem("pp-theme");
+        if (t) document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

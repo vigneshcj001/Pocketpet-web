@@ -23,18 +23,17 @@ const QA: [string, React.ReactNode][] = [
 
 export default function Faq() {
   return (
-    <section id="faq" className="reveal mx-auto max-w-[760px] scroll-mt-16 py-18">
-      <div className="mb-9 text-center">
-        <h2 className="text-[clamp(26px,3.4vw,38px)]">Questions</h2>
-      </div>
+    <section id="faq" className="reveal grid scroll-mt-16 gap-10 py-18 md:grid-cols-[.7fr_1.3fr]">
+      <div><p className="eyebrow mb-3">Good to know</p><h2 className="text-[clamp(30px,3.4vw,42px)]">Questions, answered.</h2><p className="mt-4 max-w-[34ch] text-muted">The practical details about platforms, privacy and performance.</p></div>
+      <div className="overflow-hidden rounded-card border border-line bg-card px-5 sm:px-7">
       {QA.map(([q, a], i) => (
-        <details key={q} open={i === 0} className="group border-b border-line py-3.5">
-          <summary className="flex cursor-pointer list-none justify-between text-[17px] font-extrabold after:font-black after:text-accent after:content-['+'] group-open:after:content-['–'] [&::-webkit-details-marker]:hidden">
+        <details key={q} open={i === 0} className="group border-b border-line last:border-0">
+          <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 py-3 text-[17px] font-extrabold after:text-xl after:font-black after:text-accent after:content-['+'] group-open:after:content-['–'] [&::-webkit-details-marker]:hidden">
             {q}
           </summary>
-          <p className="mt-2 text-muted">{a}</p>
+          <p className="max-w-[62ch] pb-5 pr-8 text-muted">{a}</p>
         </details>
-      ))}
+      ))}</div>
     </section>
   );
 }

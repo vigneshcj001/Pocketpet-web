@@ -371,7 +371,7 @@ export default function PetStage() {
   return (
     <div
       ref={stageRef}
-      className="stage-sky relative h-[420px] overflow-hidden rounded-[28px] border border-line shadow-soft cursor-crosshair touch-none max-md:h-[360px] max-sm:h-[320px]"
+      className="stage-sky relative h-[420px] overflow-hidden rounded-[30px] border border-line shadow-soft cursor-crosshair touch-pan-y max-md:h-[360px] max-sm:h-[340px]"
       aria-label="Interactive PocketPet demo"
       onPointerMove={onStageMove}
       onPointerLeave={() => { brain.current.target = null; }}
@@ -406,7 +406,7 @@ export default function PetStage() {
       <div
         role="group"
         aria-label="Choose a pet"
-        className="absolute left-3 top-3 z-[5] flex items-center gap-1.5 rounded-full border border-line bg-card/85 p-1.5 backdrop-blur cursor-default max-sm:flex-wrap max-sm:rounded-2xl"
+        className="absolute left-3 right-3 top-3 z-[5] flex items-center gap-1.5 overflow-x-auto rounded-full border border-line bg-card/90 p-1.5 backdrop-blur cursor-default"
         onPointerMove={(e) => e.stopPropagation()}
       >
         {PET_IDS.map((id, i) => (

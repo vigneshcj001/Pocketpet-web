@@ -14,14 +14,15 @@ const CHECKS = [
 
 /** A looping, typed-out task with a plan that ticks off and an approval card. */
 function Demo() {
-  const [typed, setTyped] = useState("");
-  const [plan, setPlan] = useState<Status[]>([]);
-  const [ask, setAsk] = useState(false);
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [typed, setTyped] = useState(reducedMotion ? TASK : "");
+  const [plan, setPlan] = useState<Status[]>(reducedMotion ? STEPS.map(() => "done") : []);
+  const [ask, setAsk] = useState(reducedMotion);
 
   useEffect(() => {
-    const fast = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) return;
     let alive = true;
-    const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, fast ? Math.min(ms, 80) : ms));
+    const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
     (async () => {
       while (alive) {
         setTyped("");
@@ -48,14 +49,14 @@ function Demo() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [reducedMotion]);
 
   return (
     <div className="overflow-hidden rounded-card border border-line bg-card text-sm shadow-soft" aria-hidden="true">
       <div className="flex items-center gap-2.5 border-b border-line px-3.5 py-2.5 font-extrabold text-muted">
         <span className="dots"><i /><i /><i /></span> Ask me to do something
       </div>
-      <div className="grid min-h-[250px] gap-3 p-4">
+      <div className="grid min-h-[360px] content-start gap-3 p-4 sm:p-5">
         <div className="caret min-h-[42px] rounded-xl bg-bg2 px-3 py-2.5">{typed}</div>
         <ol className="grid list-decimal gap-1 pl-[22px]">
           {STEPS.slice(0, plan.length).map((s, i) => (
@@ -84,7 +85,7 @@ function Demo() {
 
 export default function Agent() {
   return (
-    <section id="agent" className="reveal grid scroll-mt-16 grid-cols-1 items-center gap-12 py-18 md:grid-cols-2">
+    <section id="agent" className="reveal my-8 grid scroll-mt-16 grid-cols-1 items-center gap-12 rounded-[32px] border border-line bg-bg2/60 px-5 py-14 sm:px-8 md:grid-cols-2 md:px-12">
       <div>
         <p className="eyebrow mb-3.5">Ask me to do something</p>
         <h2 className="text-[clamp(26px,3.4vw,38px)]">It runs errands, too.</h2>

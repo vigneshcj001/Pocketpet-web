@@ -23,20 +23,20 @@
 
 :root {
   color-scheme: light dark;
-  --bg: #f7f3ec;
-  --bg2: #efe8dc;
-  --card: #ffffff;
-  --ink: #2c2438;
-  --muted: #736c80;
-  --line: #e6dfd3;
-  --accent: #e8963c;
-  --accent-ink: #1c1824;
-  --accent-soft: #fbe9d3;
-  --green: #347554;
-  --sky-a: #fff3e0;
-  --sky-b: #ffe0b8;
-  --floor: #c7a97a;
-  --shadow: 0 12px 40px rgba(44, 36, 56, 0.12);
+  --bg: #fbf8f2;
+  --bg2: #f3ede4;
+  --card: #fffdf9;
+  --ink: #2b211c;
+  --muted: #736860;
+  --line: #e8ddd0;
+  --accent: #ef8f39;
+  --accent-ink: #28170b;
+  --accent-soft: #fff0de;
+  --green: #36735a;
+  --sky-a: #fff5e5;
+  --sky-b: #ffdcae;
+  --floor: #b89466;
+  --shadow: 0 18px 50px rgba(84, 58, 39, 0.13);
 }
 :root[data-theme="dark"] {
   --bg: #1c1824;
@@ -73,8 +73,12 @@
     @apply bg-bg text-ink font-sans font-medium overflow-x-hidden;
     font-size: 16px;
     line-height: 1.55;
+    background-image: radial-gradient(circle at 8% 8%, rgba(239,143,57,.08), transparent 28rem), radial-gradient(circle at 95% 40%, rgba(240,180,55,.07), transparent 28rem);
   }
   h1, h2, h3 { @apply font-black leading-[1.15] tracking-[-0.01em]; }
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+  :focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 70%, white); outline-offset: 3px; }
+  section[id] { scroll-margin-top: 82px; }
   code {
     @apply bg-bg2 rounded-md px-1.5 text-[0.92em];
     font-family: Consolas, "Cascadia Mono", ui-monospace, monospace;
@@ -83,7 +87,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center gap-2.5 rounded-2xl border border-line bg-card px-4.5 py-2.75 font-extrabold text-ink no-underline cursor-pointer transition-[transform,box-shadow,background] duration-150;
+    @apply inline-flex min-h-12 items-center gap-2.5 rounded-2xl border border-line bg-card px-5 py-3 font-extrabold text-ink no-underline cursor-pointer transition-[transform,box-shadow,background] duration-150;
   }
   .btn:hover { @apply -translate-y-0.5 shadow-soft; }
   .btn-primary { @apply bg-accent border-accent text-accent-ink; }
@@ -245,6 +249,7 @@
 @keyframes rise { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .reveal, .reveal-item { opacity: 1; translate: 0 0; transition: none; }
   .pet .p-eye, .pet .sprite, .pet .p-head, .pet .p-tail, .pet .p-leg-f, .pet .p-leg-b, .food { animation: none !important; }
 }

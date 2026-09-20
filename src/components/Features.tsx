@@ -20,9 +20,10 @@ export default function Features() {
   };
   return (
     <section id="features" className="reveal scroll-mt-16 py-18">
-      <div className="mb-9 text-center">
+      <div className="mb-10 max-w-[620px]">
+        <p className="eyebrow mb-3">A companion with personality</p>
         <h2 className="text-[clamp(26px,3.4vw,38px)]">What it does all day</h2>
-        <p className="mt-2 text-muted">Four animals, one overlay, zero Electron.</p>
+        <p className="mt-3 text-muted">It follows, naps, plays and stays out of the way. Every card below is also a shortcut to try the behavior.</p>
       </div>
       <div className="grid grid-cols-1 gap-4.5 sm:grid-cols-2 lg:grid-cols-3">
         {FEATURES.map(([icon, title, body, action], i) => (
@@ -31,12 +32,12 @@ export default function Features() {
             type="button"
             onClick={() => tryIt(action)}
             style={{ transitionDelay: `${i * 40}ms` }}
-            className="group reveal-item rounded-card border border-line bg-card p-5.5 text-left transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.75 hover:border-accent hover:shadow-soft"
+            className="group reveal-item min-h-[220px] rounded-card border border-line bg-card p-6 text-left transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-1 hover:border-accent hover:shadow-soft"
           >
             <span className="mb-2.5 block text-[30px] transition-transform group-hover:-rotate-6 group-hover:scale-110">{icon}</span>
             <h3 className="mb-1.5 text-[19px]">{title}</h3>
             <p className="text-[14.5px] text-muted">{body}</p>
-            <span className="mt-3 inline-block text-[12.5px] font-extrabold text-accent opacity-0 transition-opacity group-hover:opacity-100">Try it on the stage ↑</span>
+            <span className="mt-4 inline-flex items-center gap-1 text-[12.5px] font-extrabold text-accent">Try it <span className="transition-transform group-hover:-translate-y-1">↑</span></span>
           </button>
         ))}
       </div>

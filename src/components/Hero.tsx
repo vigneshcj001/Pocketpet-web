@@ -3,16 +3,16 @@ import Stats from "./Stats";
 import type { Os } from "../hooks/useRelease";
 import type { RepoStats } from "../hooks/useRepo";
 
-const OS_LABEL: Record<Os, string> = { windows: "Download for Windows", mac: "Download for macOS", linux: "Download for Linux" };
+const OS_LABEL: Record<Os, string> = { windows: "Download for Windows", mac: "Choose your Mac build", linux: "Download for Linux" };
 const OS_SUB: Record<Os, string> = { windows: ".exe installer · 64-bit", mac: ".dmg · Apple Silicon & Intel", linux: "AppImage or .deb" };
 
 export default function Hero({ os, directUrl, stats, version }: { os: Os | null; directUrl: string | null; stats: RepoStats | null; version: string | null }) {
   return (
-    <section className="grid grid-cols-1 items-center gap-10 pt-14 pb-16 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
-      <div>
-        <p className="eyebrow mb-3.5">Free · Open source · Windows · macOS · Linux</p>
-        <h1 className="text-[clamp(34px,5vw,58px)]">A tiny friend that lives on your desktop.</h1>
-        <p className="my-5 max-w-[46ch] text-lg text-muted">
+    <section className="grid min-h-[calc(100vh-66px)] grid-cols-1 items-center gap-10 py-12 md:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] md:py-16">
+      <div className="relative z-10">
+        <p className="eyebrow mb-4">Your desktop just got a little less lonely</p>
+        <h1 className="max-w-[11ch] text-[clamp(44px,6vw,72px)] leading-[.98]">A tiny friend for your desktop.</h1>
+        <p className="my-6 max-w-[44ch] text-[17px] leading-relaxed text-muted sm:text-lg">
           PocketPet follows your cursor, naps on your windows, begs for snacks, plays hide &amp; seek — and when you
           ask, it opens a browser and runs errands for you.
         </p>
@@ -26,8 +26,8 @@ export default function Hero({ os, directUrl, stats, version }: { os: Os | null;
           </a>
           <a href="#features" className="btn bg-transparent">See what it does</a>
         </div>
-        <p className="mt-5 text-[13.5px] text-muted">
-          Move your mouse over the stage → the pet follows. Click it. Double-click it. Drag and let go. Try 🎨 to dress it up. Leave it alone and it dozes off.
+        <p className="mt-5 flex max-w-[48ch] items-start gap-2 text-[13.5px] text-muted">
+          <span aria-hidden="true">↳</span><span>Play with the live demo: move your mouse, click, drag, feed, or dress up your pet.</span>
         </p>
         <Stats stats={stats} version={version} />
       </div>

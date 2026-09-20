@@ -11,22 +11,23 @@ import Footer from "./components/Footer";
 import SiteBuddy from "./components/SiteBuddy";
 import MobileBar from "./components/MobileBar";
 import { PetProvider } from "./pet/PetContext";
-import { detectOs, useRelease, RELEASES_URL } from "./hooks/useRelease";
+import { detectOs, useRelease } from "./hooks/useRelease";
 import { useRepo } from "./hooks/useRepo";
 import { useReveal } from "./hooks/useReveal";
 
 export default function App() {
-  const os = useMemo(detectOs, []);
+  const os = useMemo(() => detectOs(), []);
   const rel = useRelease();
   const { stats, releases } = useRepo();
   useReveal([releases.length]);
   // Once the release is known, the hero button downloads the visitor's file directly.
-  const direct = os ? (rel.asset(PRIMARY_SUFFIX[os])?.url ?? null) : null;
+  // Macs need an architecture choice; never guess Apple Silicon vs Intel.
+  const direct = os && os !== "mac" ? (rel.asset(PRIMARY_SUFFIX[os])?.url ?? null) : null;
 
   return (
     <PetProvider>
       <Header />
-      <main id="top" className="mx-auto max-w-[1120px] px-5">
+      <main id="top" className="mx-auto max-w-[1180px] px-5 sm:px-7">
         <Hero os={os} directUrl={direct} stats={stats} version={rel.release?.tag ?? null} />
         <Download os={os} rel={rel} />
         <Features />
@@ -37,7 +38,7 @@ export default function App() {
       </main>
       <Footer />
       <SiteBuddy />
-      <MobileBar os={os} href={direct ?? (rel.release?.url ?? RELEASES_URL)} />
+      <MobileBar os={os} href={direct ?? "#download"} />
     </PetProvider>
   );
 }

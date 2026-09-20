@@ -16,7 +16,7 @@ export default function Stats({ stats, version }: { stats: RepoStats | null; ver
       href={REPO_URL}
       target="_blank"
       rel="noopener"
-      className="mt-6 inline-flex flex-wrap items-center gap-x-4 gap-y-1 rounded-full border border-line bg-card/70 px-4 py-2 text-[13px] font-bold text-muted no-underline backdrop-blur hover:text-ink"
+      className="mt-7 inline-flex flex-wrap items-center gap-x-4 gap-y-1 rounded-2xl border border-line bg-card/70 px-4 py-2 text-[13px] font-bold text-muted no-underline backdrop-blur transition hover:border-accent/50 hover:text-ink"
       title="Open the repository on GitHub"
     >
       {items.map(([icon, text]) => (

@@ -406,23 +406,10 @@ export default function PetStage() {
       {/* Toolbar */}
       <div
         role="group"
-        aria-label="Choose a pet"
+        aria-label="Playground actions"
         className="absolute left-3 right-3 top-3 z-[5] flex items-center gap-1.5 overflow-x-auto rounded-full border border-line bg-card/90 p-1.5 backdrop-blur cursor-default"
         onPointerMove={(e) => e.stopPropagation()}
       >
-        {PET_IDS.map((id, i) => (
-          <button
-            key={id}
-            type="button"
-            title={`${PETS[id].name} (${i + 1})`}
-            aria-pressed={id === petId}
-            onClick={() => choosePet(id)}
-            className={`h-[34px] min-w-[34px] shrink-0 rounded-full border px-2 text-lg transition-colors hover:bg-bg2 ${id === petId ? "border-accent bg-accent-soft" : "border-transparent"}`}
-          >
-            {PETS[id].emoji}
-          </button>
-        ))}
-        <span className="h-[22px] w-px shrink-0 bg-line" />
         <Tool onClick={feed} title="Drop a snack (F)">🍪 Feed</Tool>
         <Tool onClick={toss} title="Toss it in the air (T)">🪁 Toss</Tool>
         <Tool onClick={hide} title="Hide & seek (H)">📦 Hide</Tool>

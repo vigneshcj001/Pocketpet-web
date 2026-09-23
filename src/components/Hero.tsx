@@ -1,4 +1,4 @@
-import PetStage from "./PetStage";
+import CompanionDemo from "./CompanionDemo";
 import Stats from "./Stats";
 import type { Os } from "../hooks/useRelease";
 import type { RepoStats } from "../hooks/useRepo";
@@ -27,11 +27,11 @@ export default function Hero({ os, directUrl, stats, version }: { os: Os | null;
           <a href="#features" className="btn bg-transparent">See what it does</a>
         </div>
         <p className="mt-5 flex max-w-[48ch] items-start gap-2 text-[13.5px] text-muted">
-          <span aria-hidden="true">↳</span><span>Play with the live demo: move your mouse, click, drag, feed, or dress up your pet.</span>
+          <span aria-hidden="true">↳</span><span>Meet your companion: try a chat, watch it think, or explore the playground.</span>
         </p>
         <Stats stats={stats} version={version} />
       </div>
-      <PetStage />
+      <CompanionDemo />
     </section>
   );
 }

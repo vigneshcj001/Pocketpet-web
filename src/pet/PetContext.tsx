@@ -39,7 +39,7 @@ interface PetState {
 const Ctx = createContext<PetState | null>(null);
 
 export function PetProvider({ children }: { children: ReactNode }) {
-  const [petId, setPetId] = useState<PetId>("cat");
+  const [petId, setPetId] = useState<PetId>("droplet");
   const [color, setColor] = useState<string | null>(null);
   const [accessories, setAccessories] = useState<Accessory[]>([]);
   const [buddyHidden, setBuddyHidden] = useState(false);

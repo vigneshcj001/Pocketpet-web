@@ -4,7 +4,7 @@
 
 The download and landing page for [PocketPet](https://github.com/vigneshcj001/Pocketpet),
 a desktop pet for Windows, macOS and Linux. The page runs the app's own
-sprites and animations, so the pet you meet here is the one you get.
+animal sprites and animations, alongside a blue pixel droplet created for the website companion preview.
 
 | | |
 |---|---|
@@ -34,6 +34,18 @@ Requires Node 20+. No environment variables.
 ## What the page does
 
 ### The pet
+
+The hero opens in **Companion** view: a blue pixel droplet with new-chat,
+voice-input and collapse controls. Try an example or type a task to see
+**Starting your task → Thinking → Completed**, then click the result to read
+the full sample answer. This is a local interaction preview with sample
+answers, not a live AI connection. Voice dictation uses browser speech
+recognition where available and requires microphone permission.
+
+Switch to **Playground** for the original interactive pet demo. The droplet
+is selected by default, with all four original animals still available.
+Playground keyboard shortcuts apply only while that view is active; keys
+`1`–`5` select the five pets.
 
 | Where | What |
 |---|---|
@@ -139,7 +151,12 @@ variant is defined on `[data-theme="dark"]`.
 
 ## Regenerating the sprites
 
-`src/data/pets.ts` is generated from the app repo's `src/pets/*.js`. After
+The original animal entries in `src/data/pets.ts` are generated from the app repo's `src/pets/*.js`.
+The website's droplet is maintained separately in `src/data/droplet.ts`, with
+expressions in `src/pet/droplet.css`. The companion UI lives in
+`src/components/CompanionDemo.tsx` and `src/components/companion.css`.
+The legacy command below overwrites `pets.ts`: preserve its `DROPLET` import,
+record entry, `PetId` member, and `PET_IDS` entry when regenerating. After
 changing a pet there, run from the **PetExt** repo root:
 
 ```bash

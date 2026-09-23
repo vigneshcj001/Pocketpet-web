@@ -171,9 +171,10 @@ export default function PetStage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscribe]);
 
-  // Keyboard: F feed, T toss, S spin, H hide, 1–4 pick a pet — when not typing.
+  // Keyboard shortcuts are available while the playground is active.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (stageRef.current?.closest("[inert]")) return;
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable) return;
@@ -182,7 +183,7 @@ export default function PetStage() {
       else if (k === "t") toss();
       else if (k === "s") spin();
       else if (k === "h") hide();
-      else if (/^[1-4]$/.test(k)) choosePet(PET_IDS[Number(k) - 1]);
+      else if (/^[1-5]$/.test(k)) choosePet(PET_IDS[Number(k) - 1]);
     };
     addEventListener("keydown", onKey);
     return () => removeEventListener("keydown", onKey);
@@ -372,7 +373,7 @@ export default function PetStage() {
     <div
       ref={stageRef}
       className="stage-sky relative h-[420px] overflow-hidden rounded-[30px] border border-line shadow-soft cursor-crosshair touch-pan-y max-md:h-[360px] max-sm:h-[340px]"
-      aria-label="Interactive PocketPet demo"
+      aria-label="PocketPet playground"
       onPointerMove={onStageMove}
       onPointerLeave={() => { brain.current.target = null; }}
     >
@@ -416,12 +417,12 @@ export default function PetStage() {
             title={`${PETS[id].name} (${i + 1})`}
             aria-pressed={id === petId}
             onClick={() => choosePet(id)}
-            className={`h-[34px] min-w-[34px] rounded-full border px-2 text-lg transition-colors hover:bg-bg2 ${id === petId ? "border-accent bg-accent-soft" : "border-transparent"}`}
+            className={`h-[34px] min-w-[34px] shrink-0 rounded-full border px-2 text-lg transition-colors hover:bg-bg2 ${id === petId ? "border-accent bg-accent-soft" : "border-transparent"}`}
           >
             {PETS[id].emoji}
           </button>
         ))}
-        <span className="h-[22px] w-px bg-line" />
+        <span className="h-[22px] w-px shrink-0 bg-line" />
         <Tool onClick={feed} title="Drop a snack (F)">🍪 Feed</Tool>
         <Tool onClick={toss} title="Toss it in the air (T)">🪁 Toss</Tool>
         <Tool onClick={hide} title="Hide & seek (H)">📦 Hide</Tool>
@@ -466,7 +467,7 @@ export default function PetStage() {
       )}
 
       <div className="pointer-events-none absolute bottom-[62px] right-4 text-[11px] font-bold text-muted/70 max-sm:hidden">
-        keys: F feed · T toss · S spin · H hide · 1–4 pets
+        keys: F feed · T toss · S spin · H hide · 1–5 pets
       </div>
     </div>
   );
@@ -479,7 +480,7 @@ function Tool({ children, onClick, title, active }: { children: React.ReactNode;
       onClick={onClick}
       title={title}
       aria-pressed={active}
-      className={`h-[34px] rounded-full border px-2.5 text-[13.5px] font-extrabold hover:bg-bg2 ${active ? "border-accent bg-accent-soft" : "border-transparent"}`}
+      className={`h-[34px] shrink-0 whitespace-nowrap rounded-full border px-2.5 text-[13.5px] font-extrabold hover:bg-bg2 ${active ? "border-accent bg-accent-soft" : "border-transparent"}`}
     >
       {children}
     </button>

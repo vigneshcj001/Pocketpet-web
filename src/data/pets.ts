@@ -1,5 +1,7 @@
-// Generated from PetExt/src/pets/*.js — the same sprites and dialogue the app ships.
-export type PetId = "cat" | "duck" | "panda" | "penguin";
+import { DROPLET } from "./droplet";
+
+// Original animal sprites and dialogue, plus the pixel-art droplet companion.
+export type PetId = "droplet" | "cat" | "duck" | "panda" | "penguin";
 export interface Pet {
   id: PetId;
   name: string;
@@ -10,6 +12,7 @@ export interface Pet {
   lines: Record<string, string[]>;
 }
 export const PETS: Record<PetId, Pet> = {
+ droplet: DROPLET,
  "cat": {
   "id": "cat",
   "name": "Cat",
@@ -353,4 +356,4 @@ export const PETS: Record<PetId, Pet> = {
   }
  }
 };
-export const PET_IDS: PetId[] = ["cat", "duck", "panda", "penguin"];
+export const PET_IDS: PetId[] = ["droplet", "cat", "duck", "panda", "penguin"];

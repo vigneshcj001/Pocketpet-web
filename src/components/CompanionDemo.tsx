@@ -22,7 +22,7 @@ const EXAMPLES = [
   { title: "Plan a focus break", answer: "Here’s a little reset: step away from your screen, stretch your shoulders, and get a glass of water. After five minutes, come back and pick one small thing to work on. Your tiny companion will be right here." },
 ];
 
-function Icon({ name }: { name: "compose" | "voice" | "details" | "plus" | "send" | "check" }) {
+function Icon({ name }: { name: "compose" | "voice" | "details" | "plus" | "send" | "check" | "chevron" }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       {name === "compose" && <><path d="M11 4H6a3 3 0 0 0-3 3v11a3 3 0 0 0 3 3h11a3 3 0 0 0 3-3v-5" /><path d="m10 14 1-4L19 2a2.1 2.1 0 0 1 3 3l-8 8-4 1Z" /></>}
@@ -31,6 +31,7 @@ function Icon({ name }: { name: "compose" | "voice" | "details" | "plus" | "send
       {name === "plus" && <path d="M12 5v14M5 12h14" />}
       {name === "send" && <path d="M12 19V5m-5 5 5-5 5 5" />}
       {name === "check" && <><circle cx="12" cy="12" r="10" fill="currentColor" stroke="none" /><path d="m8 12 3 3 5-6" stroke="white" strokeWidth="2" /></>}
+      {name === "chevron" && <path d="M6 9l6 6 6-6" />}
     </svg>
   );
 }
@@ -40,7 +41,7 @@ function ChatCompanion({ active }: { active: boolean }) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [composer, setComposer] = useState(false);
   const [controlsOpen, setControlsOpen] = useState(false);
-  const [seenTask, setSeenTask] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [examplesOpen, setExamplesOpen] = useState(false);
   const [answerOpen, setAnswerOpen] = useState(false);
   const [draft, setDraft] = useState("");
@@ -89,7 +90,7 @@ function ChatCompanion({ active }: { active: boolean }) {
   }, [active, composer, busy]);
 
   useEffect(() => {
-    if (controlsOpen && phase === "completed") setSeenTask(true);
+    if (controlsOpen && phase === "completed") { /* task seen */ }
   }, [controlsOpen, phase]);
 
   const newChat = () => {
@@ -113,7 +114,7 @@ function ChatCompanion({ active }: { active: boolean }) {
     const example = EXAMPLES.find((item) => item.title.toLowerCase() === title.toLowerCase())
       ?? (/\b(ai|artificial intelligence)\b/i.test(title) ? EXAMPLES[0] : undefined);
     setTask({ title, answer: example?.answer ?? "This website previews how your companion starts, thinks, and finishes a task. Try ‘Explain AI basics’ or ‘Plan a focus break’ for a sample answer. To run your own tasks, download PocketPet and connect your preferred AI provider." });
-    setSeenTask(false);
+
     setDraft("");
     setNotice("");
     setComposer(false);

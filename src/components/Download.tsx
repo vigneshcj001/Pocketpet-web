@@ -73,17 +73,17 @@ export default function Download({ os, rel }: { os: Os | null; rel: ReleaseApi }
   const { perform } = usePet();
   const note =
     state === "error"
-      ? "Couldn't reach GitHub just now — the buttons open the releases page, where every build is listed."
+      ? "Couldn't reach GitHub just now — the buttons open the releases page, where every published build is listed."
       : release
-        ? `Downloads come straight from GitHub Releases (${release.tag}${release.publishedAt ? `, ${new Date(release.publishedAt).toLocaleDateString()}` : ""}).`
-        : "Downloads come straight from GitHub Releases. Builds are produced by the public CI workflow in the repository.";
+        ? "Each button shows the newest published build for that platform. Platform versions can differ until all builds are released."
+        : "Checking GitHub Releases for published builds…";
 
   return (
     <section id="download" className="reveal scroll-mt-16 py-18">
       <div className="mb-9 text-center">
         <h2 className="text-[clamp(26px,3.4vw,38px)]">Download</h2>
         <p className="mt-2 text-muted">
-          Version <span>{release?.tag ?? (state === "loading" ? "…" : "latest")}</span> ·{" "}
+          Latest public release <span>{release?.tag ?? (state === "loading" ? "…" : "unavailable")}</span> ·{" "}
           <a href={release?.url ?? RELEASES_URL} target="_blank" rel="noopener">release notes ↗</a>
         </p>
       </div>
@@ -112,12 +112,12 @@ export default function Download({ os, rel }: { os: Os | null; rel: ReleaseApi }
                     <a
                       key={b.suffix}
                       href={a?.url ?? (release?.url ?? RELEASES_URL)}
-                      title={a ? undefined : "Not in this release yet — opens the releases page"}
+                      title={a ? undefined : "No published build found — opens the releases page"}
                       onClick={() => a && perform("celebrate")}
                       className={`btn justify-center ${b.primary ? "btn-primary" : ""} ${!a && state !== "loading" ? "opacity-60" : ""}`}
                     >
                       ⬇ {b.label}
-                      {a && <span className="text-xs font-semibold opacity-75">{fmtSize(a.size)}</span>}
+                      {a && <span className="text-xs font-semibold opacity-75">{a.tag} · {fmtSize(a.size)}</span>}
                     </a>
                   );
                 })}

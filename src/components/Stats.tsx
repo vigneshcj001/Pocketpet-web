@@ -3,11 +3,21 @@ import type { RepoStats } from "../hooks/useRepo";
 
 const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n));
 
+/**
+ * Threshold below which raw counts are hidden to avoid negative social proof
+ * on a fresh release. Once a metric crosses this number it shows the real value.
+ */
+const SHOW_THRESHOLD = 50;
+
 /** Small live strip under the hero CTA: stars, forks, licence, last push. */
 export default function Stats({ stats, version }: { stats: RepoStats | null; version: string | null }) {
+  const stars = stats?.stars ?? 0;
+  const forks = stats?.forks ?? 0;
+
   const items: [string, string][] = [
-    ["⭐", stats ? (stats.stars > 0 ? `${fmt(stats.stars)} stars` : "Star it on GitHub") : "— stars"],
-    ["🍴", stats ? `${fmt(stats.forks)} fork${stats.forks === 1 ? "" : "s"}` : "— forks"],
+    ["⭐", stats ? (stars >= SHOW_THRESHOLD ? `${fmt(stars)} stars` : "Star it on GitHub") : "— stars"],
+    // Only show fork count once it clears the threshold; below that, omit the metric entirely.
+    ...(forks >= SHOW_THRESHOLD ? [["🍴", `${fmt(forks)} fork${forks === 1 ? "" : "s"}`] as [string, string]] : []),
     ["🏷️", version ?? "latest"],
     ["📜", stats?.license ?? "Open source"],
   ];

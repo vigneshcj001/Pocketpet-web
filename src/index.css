@@ -248,8 +248,21 @@
 .rise { animation: rise 0.3s ease-out both; }
 @keyframes rise { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
+/* hero demo hint — bounces until the user interacts, then fades out */
+.demo-hint {
+  animation: hint-bounce 1.4s ease-in-out 1.2s 4 both, hint-fade 0.4s ease-out 7s forwards;
+  opacity: 1;
+}
+@keyframes hint-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(-8px); }
+}
+@keyframes hint-fade { to { opacity: 0; pointer-events: none; } }
+.demo-hint-arrow { display: inline-block; animation: hint-bounce 1.4s ease-in-out 1.2s 4 both; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal, .reveal-item { opacity: 1; translate: 0 0; transition: none; }
   .pet .p-eye, .pet .sprite, .pet .p-head, .pet .p-tail, .pet .p-leg-f, .pet .p-leg-b, .food { animation: none !important; }
+  .demo-hint { display: none; }
 }

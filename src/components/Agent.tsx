@@ -1,16 +1,62 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const TASK = "Order a margherita pizza from Domino's to my usual address — stop before payment.";
 const STEPS = ["Open dominos.in", "Pick a margherita, medium", "Add to cart, choose delivery", "Stop at payment and ask"];
 type Status = "todo" | "doing" | "done";
 
-const CHECKS = [
-  "Works with Claude, OpenAI, Gemini, Groq, DeepSeek, or local models via Ollama.",
-  "Stops for your approval before anything that pays, books, logs in, sends or deletes.",
-  "Never types passwords or card numbers — you do that step in its window.",
-  "Allowed-site list, per-site rules, purchase cap, daily spend cap, kill switch.",
-  "Keys live in the OS keychain, never in settings or backups.",
+const CHECKS: Array<{ text: string; tip?: { label: string; body: string } }> = [
+  {
+    text: "Works with Claude, OpenAI, Gemini, Groq, DeepSeek, or local models via Ollama.",
+    tip: {
+      label: "Get a free API key",
+      body: "Gemini and Groq both have generous free tiers — no credit card needed. Sign up, copy your key, paste it once in PocketPet's settings, and you're done.",
+    },
+  },
+  { text: "Stops for your approval before anything that pays, books, logs in, sends or deletes." },
+  { text: "Never types passwords or card numbers — you do that step in its window." },
+  { text: "Allowed-site list, per-site rules, purchase cap, daily spend cap, kill switch." },
+  { text: "Keys live in the OS keychain, never in settings or backups." },
 ];
+
+/** Inline tooltip that opens on click/focus — keyboard and pointer accessible. */
+function Tip({ label, body }: { label: string; body: string }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  return (
+    <span ref={ref} className="relative ml-2 inline-block align-middle">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
+        aria-expanded={open}
+        aria-label={label}
+        className="inline-flex size-[18px] cursor-pointer items-center justify-center rounded-full border border-accent/60 bg-accent-soft text-[10px] font-extrabold text-accent transition hover:bg-accent hover:text-accent-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      >
+        ?
+      </button>
+      {open && (
+        <span
+          role="tooltip"
+          className="absolute bottom-full left-1/2 z-20 mb-2 w-[240px] -translate-x-1/2 rounded-2xl border border-line bg-card p-3 text-[13px] font-medium leading-snug text-ink shadow-soft"
+        >
+          <strong className="mb-1 block text-[12px] font-extrabold uppercase tracking-wide text-accent">{label}</strong>
+          {body}
+          <span className="absolute top-full left-1/2 -ml-1.5 border-[6px] border-transparent border-t-card" />
+        </span>
+      )}
+    </span>
+  );
+}
 
 /** A looping, typed-out task with a plan that ticks off and an approval card. */
 function Demo() {
@@ -95,8 +141,9 @@ export default function Agent() {
         </p>
         <ul className="grid gap-2.5">
           {CHECKS.map((c) => (
-            <li key={c} className="relative pl-7 before:absolute before:left-0 before:top-0 before:font-black before:text-green before:content-['✓']">
-              {c}
+            <li key={c.text} className="relative pl-7 before:absolute before:left-0 before:top-0 before:font-black before:text-green before:content-['✓']">
+              {c.text}
+              {c.tip && <Tip label={c.tip.label} body={c.tip.body} />}
             </li>
           ))}
         </ul>

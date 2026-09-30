@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { ReactNode } from "react";
 import { RELEASES_URL, fmtSize, type Os, type useRelease } from "../hooks/useRelease";
 import { usePet } from "../pet/PetContext";
@@ -65,12 +66,68 @@ const PLATFORMS: Platform[] = [
   },
 ];
 
-/** Which asset suffix is the "main" download for an OS (used by the hero button). */
 export const PRIMARY_SUFFIX: Record<Os, string> = { windows: "-setup.exe", mac: "_aarch64.dmg", linux: ".AppImage" };
+
+/** Shown instead of platform cards when the visitor is on a phone or tablet. */
+function MobileCta({ url }: { url: string }) {
+  const PAGE_URL = url || "https://pocketpet-web.vercel.app";
+  const [sent, setSent] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const send = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    // Compose a mailto link — no server needed, opens the default mail app.
+    const subject = encodeURIComponent("Download PocketPet on your desktop");
+    const body = encodeURIComponent(
+      `Hey!\n\nHere's the link to download PocketPet — make sure you're on a desktop (Windows, macOS, or Linux):\n\n${PAGE_URL}\n\nIt's free and open source. Enjoy 🐾`
+    );
+    window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
+    setSent(true);
+  };
+
+  return (
+    <div className="reveal-item mx-auto max-w-[480px] rounded-[28px] border border-line bg-card p-8 text-center shadow-soft">
+      <p className="mb-2 text-4xl" aria-hidden="true">🖥️</p>
+      <h3 className="mb-2 text-[20px]">PocketPet is a desktop app</h3>
+      <p className="mb-6 text-[15px] text-muted">
+        It runs on Windows, macOS, and Linux — not on mobile browsers. Send yourself a reminder to grab it when you're
+        at your computer.
+      </p>
+      {sent ? (
+        <p className="rounded-2xl bg-accent-soft px-4 py-3 text-[14px] font-bold text-accent">
+          ✓ Your mail app should open — hit send when you're ready!
+        </p>
+      ) : (
+        <form onSubmit={send} className="flex flex-col gap-3">
+          <label htmlFor="mobile-email" className="sr-only">Your email address</label>
+          <input
+            id="mobile-email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            className="w-full rounded-2xl border border-line bg-bg px-4 py-3 text-[15px] font-medium text-ink placeholder:text-muted focus:border-accent focus:outline-none"
+          />
+          <button type="submit" className="btn btn-primary w-full justify-center">
+            <span aria-hidden="true">📬</span> Email me the link
+          </button>
+        </form>
+      )}
+      <p className="mt-4 text-[12px] text-muted">No account needed. Your address is only used to compose this one email.</p>
+    </div>
+  );
+}
 
 export default function Download({ os, rel }: { os: Os | null; rel: ReleaseApi }) {
   const { release, state, asset } = rel;
   const { perform } = usePet();
+
+  // Mobile visitors can't install a desktop app — show a focused CTA instead.
+  const isMobile = os === null && typeof navigator !== "undefined" &&
+    /Android|iPhone|iPad|iPod|Windows Phone|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
   const note =
     state === "error"
       ? "Couldn't reach GitHub just now — the buttons open the releases page, where every published build is listed."
@@ -87,51 +144,57 @@ export default function Download({ os, rel }: { os: Os | null; rel: ReleaseApi }
           <a href={release?.url ?? RELEASES_URL} target="_blank" rel="noopener">release notes ↗</a>
         </p>
       </div>
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {PLATFORMS.map((p, i) => {
-          const mine = p.os === os;
-          return (
-            <article
-              key={p.os}
-              style={{ transitionDelay: `${i * 80}ms` }}
-              className={`card reveal-item ${mine ? "border-accent shadow-[0_0_0_4px_var(--accent-soft),var(--shadow)]" : ""}`}
-            >
-              {mine && (
-                <div className="absolute -top-3 left-5 rounded-full bg-accent px-2.5 py-0.5 text-xs font-extrabold text-accent-ink">
-                  Recommended for you
-                </div>
-              )}
-              <svg viewBox="0 0 24 24" className="size-[46px]" aria-hidden="true">{p.icon}</svg>
-              <h3 className="text-[19px]">{p.name}</h3>
-              <p className="text-[13px] font-bold text-muted">{p.sub}</p>
-              <p className="min-h-[3.2em] text-[14.5px] text-muted">{p.note}</p>
-              <div className="mt-1.5 flex flex-col gap-2">
-                {p.buttons.map((b) => {
-                  const a = asset(b.suffix);
-                  return (
-                    <a
-                      key={b.suffix}
-                      href={a?.url ?? (release?.url ?? RELEASES_URL)}
-                      title={a ? undefined : "No published build found — opens the releases page"}
-                      onClick={() => a && perform("celebrate")}
-                      className={`btn justify-center ${b.primary ? "btn-primary" : ""} ${!a && state !== "loading" ? "opacity-60" : ""}`}
-                    >
-                      ⬇ {b.label}
-                      {a && <span className="text-xs font-semibold opacity-75">{a.tag} · {fmtSize(a.size)}</span>}
-                    </a>
-                  );
-                })}
-              </div>
-              <ul className="mt-2 list-disc pl-[18px] text-[13px] text-muted">
-                {p.tips.map((t, i) => (
-                  <li key={i} className="my-1">{t}</li>
-                ))}
-              </ul>
-            </article>
-          );
-        })}
-      </div>
-      <p className="mt-6 text-center text-[13.5px] text-muted">{note}</p>
+      {isMobile ? (
+        <MobileCta url={typeof window !== "undefined" ? window.location.href : ""} />
+      ) : (
+        <>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {PLATFORMS.map((p, i) => {
+              const mine = p.os === os;
+              return (
+                <article
+                  key={p.os}
+                  style={{ transitionDelay: `${i * 80}ms` }}
+                  className={`card reveal-item ${mine ? "border-accent shadow-[0_0_0_4px_var(--accent-soft),var(--shadow)]" : ""}`}
+                >
+                  {mine && (
+                    <div className="absolute -top-3 left-5 rounded-full bg-accent px-2.5 py-0.5 text-xs font-extrabold text-accent-ink">
+                      Recommended for you
+                    </div>
+                  )}
+                  <svg viewBox="0 0 24 24" className="size-[46px]" aria-hidden="true">{p.icon}</svg>
+                  <h3 className="text-[19px]">{p.name}</h3>
+                  <p className="text-[13px] font-bold text-muted">{p.sub}</p>
+                  <p className="min-h-[3.2em] text-[14.5px] text-muted">{p.note}</p>
+                  <div className="mt-1.5 flex flex-col gap-2">
+                    {p.buttons.map((b) => {
+                      const a = asset(b.suffix);
+                      return (
+                        <a
+                          key={b.suffix}
+                          href={a?.url ?? (release?.url ?? RELEASES_URL)}
+                          title={a ? undefined : "No published build found — opens the releases page"}
+                          onClick={() => a && perform("celebrate")}
+                          className={`btn justify-center ${b.primary ? "btn-primary" : ""} ${!a && state !== "loading" ? "opacity-60" : ""}`}
+                        >
+                          ⬇ {b.label}
+                          {a && <span className="text-xs font-semibold opacity-75">{a.tag} · {fmtSize(a.size)}</span>}
+                        </a>
+                      );
+                    })}
+                  </div>
+                  <ul className="mt-2 list-disc pl-[18px] text-[13px] text-muted">
+                    {p.tips.map((t, i) => (
+                      <li key={i} className="my-1">{t}</li>
+                    ))}
+                  </ul>
+                </article>
+              );
+            })}
+          </div>
+          <p className="mt-6 text-center text-[13.5px] text-muted">{note}</p>
+        </>
+      )}
     </section>
   );
 }

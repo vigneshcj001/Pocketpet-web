@@ -5,6 +5,7 @@ import Download, { PRIMARY_SUFFIX } from "./components/Download";
 import Features from "./components/Features";
 import Compare from "./components/Compare";
 import Agent from "./components/Agent";
+import Testimonials from "./components/Testimonials";
 import Changelog from "./components/Changelog";
 import Faq from "./components/Faq";
 import Footer from "./components/Footer";
@@ -33,6 +34,7 @@ export default function App() {
         <Features />
         <Compare />
         <Agent />
+        <Testimonials />
         <Changelog releases={releases} />
         <Faq />
       </main>

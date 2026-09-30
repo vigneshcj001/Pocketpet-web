@@ -11,6 +11,15 @@ export default function Hero({ os, directUrl, stats, version }: { os: Os | null;
     <section className="grid min-h-[calc(100vh-66px)] grid-cols-1 items-center gap-10 py-12 md:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] md:py-16">
       <div className="relative z-10">
         <p className="eyebrow mb-4">Your desktop just got a little less lonely</p>
+        {/* AI-powered badge — surfaces the Errands differentiator above the fold */}
+        <div className="mb-4 flex flex-wrap gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent-soft px-3 py-1 text-[12px] font-extrabold text-accent">
+            <span aria-hidden="true">✦</span> Powered by your favourite AI models
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-card/70 px-3 py-1 text-[12px] font-extrabold text-muted">
+            <span aria-hidden="true">🖥️</span> Windows · macOS · Linux
+          </span>
+        </div>
         <h1 className="max-w-[11ch] text-[clamp(44px,6vw,72px)] leading-[.98]">A tiny friend for your desktop.</h1>
         <p className="my-6 max-w-[44ch] text-[17px] leading-relaxed text-muted sm:text-lg">
           PocketPet follows your cursor, naps on your windows, begs for snacks, plays hide &amp; seek — and when you
@@ -31,7 +40,25 @@ export default function Hero({ os, directUrl, stats, version }: { os: Os | null;
         </p>
         <Stats stats={stats} version={version} />
       </div>
-      <CompanionDemo />
+      {/* Demo hint overlay: fades out once the user interacts */}
+      <div className="relative">
+        <CompanionDemo />
+        <DemoHint />
+      </div>
     </section>
+  );
+}
+
+/** Bouncing "Try me!" hint that disappears on first hover or click inside the demo. */
+function DemoHint() {
+  return (
+    <div
+      className="demo-hint pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 select-none"
+      aria-hidden="true"
+    >
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/50 bg-accent-soft px-3 py-1.5 text-[12.5px] font-extrabold text-accent shadow-sm">
+        <span className="demo-hint-arrow inline-block">↓</span> Try me!
+      </span>
+    </div>
   );
 }

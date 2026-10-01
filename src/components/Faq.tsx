@@ -1,7 +1,7 @@
 const QA: [string, React.ReactNode][] = [
   [
     "Is it really free?",
-    "Yes. It's open source. The errand-running agent uses your own API key (or a free local model through Ollama), so any model spend is between you and your provider — there's a daily cap you control.",
+    "Yes, and the source is on GitHub. The errand-running agent uses your own API key (or a free local model through Ollama), so any model spend is between you and your provider — there's a daily cap you control.",
   ],
   [
     "Why does the Mac / Linux version do less?",
@@ -17,7 +17,7 @@ const QA: [string, React.ReactNode][] = [
   ],
   [
     "How do I uninstall?",
-    <>Windows: Settings → Apps. macOS: drag the app to the Trash. Linux: delete the AppImage or <code>apt remove pocketpet</code>. Your settings live in the app data folder — Settings → Backup can export them first.</>,
+    <>Windows: Settings → Apps. macOS: drag the app to the Trash. Linux: delete the AppImage or <code>sudo apt remove pocket-pet</code>. Your settings live in the app data folder — Settings → Backup can export them first.</>,
   ],
 ];
 

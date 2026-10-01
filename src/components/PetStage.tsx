@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { PETS, PET_IDS } from "../data/pets";
-import { ACCESSORY_CHOICES, usePet, type PetAction } from "../pet/PetContext";
+import { ACCESSORY_CHOICES, usePet, type PetAction } from "../pet/context";
 import Sprite from "../pet/Sprite";
 
 /**
@@ -360,6 +360,8 @@ export default function PetStage() {
     b.dragging = false;
     setDragging(false);
     e.currentTarget.releasePointerCapture(e.pointerId);
+    // Pointer capture lets a drag leave the stage; never drop the pet outside it.
+    b.x = clamp(b.x, 0, stageW() - SIZE);
     if (Math.hypot(b.vx, b.vy) > 3 || b.y < groundY()) {
       b.mode = "fly";
       setAnim("fly");

@@ -1,4 +1,4 @@
-import { usePet, type PetAction } from "../pet/PetContext";
+import { usePet, type PetAction } from "../pet/context";
 
 const FEATURES: [string, string, React.ReactNode, PetAction][] = [
   ["🖱️", "Follows your cursor", "Walks when you're near, runs when you're far, sits when you stop, dozes off after half a minute of stillness.", "dash"],

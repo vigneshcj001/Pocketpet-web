@@ -89,11 +89,12 @@ All motion respects `prefers-reduced-motion`.
   (✓ full, ◐ partial, — not available) with footnotes.
 - **It runs errands, too** — the task agent, with a looping demo of a typed
   task, a plan ticking off, and an approval card.
-- **What's new** — the last four GitHub releases as a timeline. Hidden until
-  a release exists.
+- **What's new** — the last four published (non-pre-release) GitHub releases
+  as a timeline, from the same request as Download. Hidden until a release
+  exists.
 - **Questions** — FAQ accordion.
-- Hero **stats strip** — live stars, forks, licence and last-push date from
-  the repo API.
+- Hero **stats strip** — live stars, forks, licence (only when GitHub detects
+  one) and last-push date from the repo API.
 - Light / dark theme: follows the OS, 🌙 toggle overrides, saved in
   `localStorage`, applied before first paint (no flash).
 
@@ -110,12 +111,13 @@ src/
   index.css                Tailwind import, theme tokens, sprite keyframes
   data/pets.ts             generated: sprites + dialogue for all four animals
   pet/
-    PetContext.tsx         chosen pet, colour, accessories, action bus
+    PetContext.tsx         provider: chosen pet, colour, accessories, action bus
+    context.ts             shared types, accessory list, usePet()
     Sprite.tsx             SVG + accessory slots
     tint.ts                recolouring (port of the app's appearance.js)
   hooks/
-    useRelease.ts          latest release, asset lookup, OS detection
-    useRepo.ts             repo stats + recent releases
+    useRelease.ts          published releases, asset lookup, OS detection
+    useRepo.ts             repo stats
     useReveal.ts           scroll-reveal observer
     useTheme.ts            light/dark
   components/

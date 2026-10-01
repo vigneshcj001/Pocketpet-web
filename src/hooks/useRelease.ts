@@ -12,8 +12,10 @@ export interface Asset {
 
 export interface Release {
   tag: string;
+  name: string;
   url: string;
   publishedAt: string;
+  body: string;
   assets: Asset[];
 }
 
@@ -24,6 +26,7 @@ interface GitHubRelease {
   name: string;
   html_url: string;
   published_at: string;
+  body: string | null;
   assets: Array<{ name: string; browser_download_url: string; size: number }>;
 }
 
@@ -45,15 +48,21 @@ export function detectOs(): Os | null {
   return null;
 }
 
+/** The file each platform's main download button points at. */
+export const PRIMARY_SUFFIX: Record<Os, string> = { windows: "-setup.exe", mac: "_aarch64.dmg", linux: ".AppImage" };
+
 export const fmtSize = (bytes: number) =>
   bytes > 1e6 ? `${(bytes / 1e6).toFixed(1)} MB` : `${Math.round(bytes / 1e3)} KB`;
 
 /**
- * Latest public release plus newest available build for each platform.
+ * Published (non-draft, non-prerelease) releases, newest first, plus the
+ * newest available build for each platform. The changelog reads the same
+ * list, so it never calls a pre-release "latest" while Download skips it.
  * Platforms can lag behind one another when a release contains fewer assets.
  */
 export function useRelease() {
   const [release, setRelease] = useState<Release | null>(null);
+  const [releases, setReleases] = useState<Release[]>([]);
   const [assets, setAssets] = useState<Asset[]>([]);
   const [state, setState] = useState<"loading" | "ok" | "error">("loading");
 
@@ -75,8 +84,10 @@ export function useRelease() {
             const url = item.html_url || RELEASES_URL;
             return {
               tag,
+              name: item.name || tag,
               url,
               publishedAt: item.published_at || "",
+              body: item.body || "",
               assets: (item.assets || []).map((a) => ({
                 name: a.name,
                 url: a.browser_download_url,
@@ -88,6 +99,7 @@ export function useRelease() {
           });
         if (!releases.length) throw new Error("No published releases");
         setRelease(releases[0]);
+        setReleases(releases);
         setAssets(releases.flatMap((item) => item.assets));
         setState("ok");
       } catch {
@@ -106,5 +118,5 @@ export function useRelease() {
   /** Newest published asset whose file name ends with `suffix`. */
   const asset = (suffix: string) => assets.find((a) => a.name.endsWith(suffix)) ?? null;
 
-  return { release, state, asset };
+  return { release, releases, state, asset };
 }

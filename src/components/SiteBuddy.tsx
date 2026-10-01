@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { usePet } from "../pet/PetContext";
+import { usePet } from "../pet/context";
 import Sprite from "../pet/Sprite";
 
 /**

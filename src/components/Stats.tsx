@@ -19,7 +19,8 @@ export default function Stats({ stats, version }: { stats: RepoStats | null; ver
     // Only show fork count once it clears the threshold; below that, omit the metric entirely.
     ...(forks >= SHOW_THRESHOLD ? [["🍴", `${fmt(forks)} fork${forks === 1 ? "" : "s"}`] as [string, string]] : []),
     ["🏷️", version ?? "latest"],
-    ["📜", stats?.license ?? "Open source"],
+    // Only name a licence GitHub actually detected in the repository.
+    ...(stats?.license && stats.license !== "NOASSERTION" ? [["📜", stats.license] as [string, string]] : []),
   ];
   return (
     <a

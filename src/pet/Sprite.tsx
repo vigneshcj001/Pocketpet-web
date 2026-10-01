@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { Pet } from "../data/pets";
 import { tintedSvg } from "./tint";
-import type { Accessory } from "./PetContext";
+import type { Accessory } from "./context";
 import "./droplet.css";
 
 /** The pet's SVG plus its emoji accessories, recoloured if asked. */

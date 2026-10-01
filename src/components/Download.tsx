@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { RELEASES_URL, fmtSize, type Os, type useRelease } from "../hooks/useRelease";
-import { usePet } from "../pet/PetContext";
+import { usePet } from "../pet/context";
 
 type ReleaseApi = ReturnType<typeof useRelease>;
 
@@ -46,7 +46,7 @@ const PLATFORMS: Platform[] = [
     ],
     tips: [
       <>Unsigned build: right-click the app → <em>Open</em> the first time.</>,
-      <>Allow it under <em>Privacy &amp; Security → Accessibility</em> for global hotkeys.</>,
+      <>If hotkeys or cursor-following don't respond, allow it under <em>Privacy &amp; Security → Accessibility</em>.</>,
     ],
   },
   {
@@ -66,8 +66,6 @@ const PLATFORMS: Platform[] = [
   },
 ];
 
-export const PRIMARY_SUFFIX: Record<Os, string> = { windows: "-setup.exe", mac: "_aarch64.dmg", linux: ".AppImage" };
-
 /** Shown instead of platform cards when the visitor is on a phone or tablet. */
 function MobileCta({ url }: { url: string }) {
   const PAGE_URL = url || "https://pocketpet-web.vercel.app";
@@ -80,7 +78,7 @@ function MobileCta({ url }: { url: string }) {
     // Compose a mailto link — no server needed, opens the default mail app.
     const subject = encodeURIComponent("Download PocketPet on your desktop");
     const body = encodeURIComponent(
-      `Hey!\n\nHere's the link to download PocketPet — make sure you're on a desktop (Windows, macOS, or Linux):\n\n${PAGE_URL}\n\nIt's free and open source. Enjoy 🐾`
+      `Hey!\n\nHere's the link to download PocketPet — make sure you're on a desktop (Windows, macOS, or Linux):\n\n${PAGE_URL}\n\nIt's free, and the source is on GitHub. Enjoy 🐾`
     );
     window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
     setSent(true);

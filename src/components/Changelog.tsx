@@ -1,5 +1,5 @@
 import { REPO_URL } from "../hooks/useRelease";
-import type { ReleaseNote } from "../hooks/useRepo";
+import type { Release } from "../hooks/useRelease";
 
 /** Turn GitHub's markdown-ish release body into a few plain bullet lines. */
 function bullets(body: string): string[] {
@@ -10,7 +10,8 @@ function bullets(body: string): string[] {
     .slice(0, 5);
 }
 
-export default function Changelog({ releases }: { releases: ReleaseNote[] }) {
+export default function Changelog({ releases: all }: { releases: Release[] }) {
+  const releases = all.slice(0, 4);
   if (!releases.length) return null;
   return (
     <section id="changelog" className="reveal scroll-mt-16 py-18">

@@ -1,5 +1,5 @@
 import { REPO_URL } from "../hooks/useRelease";
-import { usePet } from "../pet/PetContext";
+import { usePet } from "../pet/context";
 import Sprite from "../pet/Sprite";
 
 export default function Footer() {
@@ -11,7 +11,7 @@ export default function Footer() {
         <Sprite pet={pet} color={color} accessories={accessories} />
       </div>
       <p className="font-extrabold text-ink">Good company for long days at your computer.</p>
-      <p className="mt-2">Free and open source · Built with Tauri and Rust ·{" "}<a href={REPO_URL} target="_blank" rel="noopener" className="font-bold text-ink">Source on GitHub ↗</a></p>
+      <p className="mt-2">Free · Built with Tauri and Rust ·{" "}<a href={REPO_URL} target="_blank" rel="noopener" className="font-bold text-ink">Source on GitHub ↗</a></p>
     </footer>
   );
 }

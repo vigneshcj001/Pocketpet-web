@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { PETS, PET_IDS } from "../data/pets";
 import Sprite from "../pet/Sprite";
-import { usePet } from "../pet/PetContext";
+import { usePet } from "../pet/context";
 import PetStage from "./PetStage";
 import "./companion.css";
 
@@ -40,7 +40,6 @@ function ChatCompanion({ active }: { active: boolean }) {
   const { pet, color, accessories } = usePet();
   const [phase, setPhase] = useState<Phase>("idle");
   const [composer, setComposer] = useState(false);
-  const [controlsOpen, setControlsOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [examplesOpen, setExamplesOpen] = useState(false);
   const [answerOpen, setAnswerOpen] = useState(false);
@@ -89,10 +88,6 @@ function ChatCompanion({ active }: { active: boolean }) {
     if (active && composer && !busy) inputRef.current?.focus();
   }, [active, composer, busy]);
 
-  useEffect(() => {
-    if (controlsOpen && phase === "completed") { /* task seen */ }
-  }, [controlsOpen, phase]);
-
   const newChat = () => {
     clearTimers();
     stopVoice();
@@ -102,7 +97,6 @@ function ChatCompanion({ active }: { active: boolean }) {
     setNotice("");
     setAnswerOpen(false);
     setExamplesOpen(false);
-    setControlsOpen(false);
     setComposer(true);
   };
 
@@ -118,7 +112,6 @@ function ChatCompanion({ active }: { active: boolean }) {
     setDraft("");
     setNotice("");
     setComposer(false);
-    setControlsOpen(false);
     setAnswerOpen(false);
     setExamplesOpen(false);
     setPhase("starting");

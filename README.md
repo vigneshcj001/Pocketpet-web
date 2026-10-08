@@ -45,14 +45,17 @@ recognition where available and requires microphone permission.
 Switch to **Playground** for the original interactive pet demo. The droplet
 is selected by default, with all four original animals still available.
 Playground keyboard shortcuts apply only while that view is active; keys
-`1`–`5` select the five pets.
+`1`–`5` select the five pets. Dress a pet in Playground, then use **Send to
+desktop app** to open its appearance in installed PocketPet. If your browser
+blocks the app link, use **Save setup file** and import that JSON from PocketPet
+Settings → Pets → Import website pet setup.
 
 | Where | What |
 |---|---|
 | **Hero stage** | The pet follows your cursor (walks near, runs far), sits, dozes off after 18 s, does random antics (yawn, stretch, look around, wander). Click → hearts. Double-click → spin. Drag and release → it flies, falls and squashes on landing. |
 | **Toolbar** | 🐱 🦆 🐼 🐧 pick an animal · 🍪 **Feed** drops its food and it walks over to eat · 🪁 **Toss** throws it · 📦 **Hide** runs behind the notes window and peeks back out · 🎨 opens the dress-up drawer. |
 | **Dress-up** | The app's real colour picker (`src/pet/tint.ts` is a port of `appearance.js`) and eight emoji accessories in hat / face / neck / back / paw slots — one per slot, four at most, same rules as the app. |
-| **Keyboard** | `F` feed · `T` toss · `S` spin · `H` hide · `1`–`4` switch pets (ignored while typing in a field). |
+| **Keyboard** | `F` feed · `T` toss · `S` spin · `H` hide · `1`–`5` switch pets (ignored while typing in a field). |
 | **Site buddy** | Scroll past the hero and the same pet — colour and hat included — walks along the bottom of the window, follows the cursor page-wide, and comments on whichever section you're reading. Click to pat, double-click to jump back to the stage, "Hide pet" to send it away (the app's `Ctrl+Alt+P`). |
 | **Feature cards** | Each card is a button: click "Follows your cursor" and the stage pet dashes; "Stands on your windows" and it hides; "Knows when to hush" and it sleeps. |
 | **Footer** | Your pet, asleep. |
@@ -93,6 +96,7 @@ All motion respects `prefers-reduced-motion`.
   as a timeline, from the same request as Download. Hidden until a release
   exists.
 - **Questions** — FAQ accordion.
+- **Latest app parity** — current v0.2.2 features are represented: per-app pet modes, friendship moods, four-frame custom pet sprite sheets, task recipes/result cards, and website-to-app appearance handoff.
 - Hero **stats strip** — live stars, forks, licence (only when GitHub detects
   one) and last-push date from the repo API.
 - Light / dark theme: follows the OS, 🌙 toggle overrides, saved in
@@ -194,6 +198,8 @@ set `base` in `vite.config.ts` and update `<link rel="canonical">` /
   releases page.
 - Assets only resolve once a `v*` tag has been pushed to the app repo and
   its CI has attached the packages to the release.
+- Pushing the app's `main` branch does not update an installed copy. The app
+  version, tag, release workflow and installer asset must all be published.
 - `vite.config.ts` includes the React Compiler Babel preset from the Vite
   template. It works; remove the `babel(...)` plugin for faster builds if you
   prefer.

@@ -37,6 +37,9 @@
 .companion-character { display: flex; flex-direction: column; align-items: center; margin: 28px 0 22px; }
 .companion-pet.pet { position: relative; width: 140px; height: 158px; --pet-size: 140px; cursor: pointer; padding: 0; border: 0; background: transparent; }
 .companion-controls { display: flex; align-items: center; gap: 6px; margin-top: 17px; }
+.companion-controls[hidden] { display: none; }
+.companion-launcher { display: grid; place-items: center; width: 34px; height: 34px; margin-top: 12px; border: 1px solid var(--companion-line); border-radius: 50%; background: var(--companion-bg); font-size: 21px; line-height: 1; cursor: pointer; }
+.companion-launcher:hover { background: var(--companion-hover); }
 .companion-controls button { display: grid; place-items: center; width: 38px; height: 36px; border-radius: 9px; cursor: pointer; transition: background .15s, color .15s; }
 .companion-controls button:hover { background: var(--companion-hover); }
 .companion-controls button:disabled { opacity: .35; cursor: default; }

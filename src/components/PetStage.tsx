@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { PETS, PET_IDS } from "../data/pets";
 import { ACCESSORY_CHOICES, usePet, type PetAction } from "../pet/context";
 import Sprite from "../pet/Sprite";
+import PetPresetDownload from "./PetPresetDownload";
 
 /**
  * The hero playground: a small version of the app's pet brain. It follows the
@@ -452,6 +453,8 @@ export default function PetStage() {
             })}
           </div>
           <p className="text-[11.5px] text-muted">Same rules as the app: one per slot, four at most. Eyes, cheeks and beaks keep their colour.</p>
+          <PetPresetDownload />
+          <p className="text-[11px] text-muted">Installed app opens from link. If browser blocks it, save setup file and import in Settings → Pets.</p>
         </div>
       )}
 

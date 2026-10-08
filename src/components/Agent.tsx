@@ -15,6 +15,7 @@ const CHECKS: Array<{ text: string; tip?: { label: string; body: string } }> = [
   { text: "Stops for your approval before anything that pays, books, logs in, sends or deletes." },
   { text: "Never types passwords or card numbers — you do that step in its window." },
   { text: "Allowed-site list, per-site rules, purchase cap, daily spend cap, kill switch." },
+  { text: "Save task recipes, schedule them, then review links, prices, dates, approvals and audit history in result cards." },
   { text: "Keys live in the OS keychain, never in settings or backups." },
 ];
 
@@ -137,7 +138,7 @@ export default function Agent() {
         <h2 className="text-[clamp(26px,3.4vw,38px)]">It runs errands, too.</h2>
         <p className="my-4 text-[17px] text-muted">
           Type or say a task. The pet plans it in steps, searches the web, reads pages and drives its own browser window
-          — separate from yours — narrating as it goes, then files the answer.
+          — separate from yours — narrating as it goes. Save repeatable task recipes, schedule them, and review structured results afterward.
         </p>
         <ul className="grid gap-2.5">
           {CHECKS.map((c) => (

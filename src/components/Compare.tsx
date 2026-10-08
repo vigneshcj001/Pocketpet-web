@@ -5,7 +5,9 @@ const ROWS: [string, Cell, Cell, Cell, string?][] = [
   ["Feed, pet, drag & throw, fetch", true, true, true],
   ["Obstacle jump & hide-and-seek games", true, true, true],
   ["Colour, name, personality, accessories, custom-image pets", true, true, true],
+  ["Four-frame custom pet sprite sheets", true, true, true],
   ["Companion pet", true, true, true],
+  ["Friendship levels, moods and pet greetings", true, true, true],
   ["Break reminders, quiet hours, low-power mode", true, true, true],
   ["Multi-monitor roaming, keep-out area", true, "partial", true, "macOS clips a window to one display"],
   ["Task agent: web search, page reading, its own browser", true, true, true],
@@ -15,6 +17,7 @@ const ROWS: [string, Cell, Cell, Cell, string?][] = [
   ["Presses minimise / close buttons with its paw", true, false, false],
   ["Mischief mode, “sit on the active window”", true, false, false],
   ["Fullscreen-app detection for focus mode", true, false, false],
+  ["Per-app playful, quiet or hidden modes", true, false, false],
   ["Offline dictation (Windows speech)", true, "partial", "partial", "Whisper via an API key instead"],
   ["Click-through overlay", true, true, "partial", "X11 / XWayland only"],
 ];

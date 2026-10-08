@@ -41,6 +41,7 @@ function ChatCompanion({ active }: { active: boolean }) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [composer, setComposer] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [controlsOpen, setControlsOpen] = useState(false);
   const [examplesOpen, setExamplesOpen] = useState(false);
   const [answerOpen, setAnswerOpen] = useState(false);
   const [draft, setDraft] = useState("");
@@ -158,13 +159,14 @@ function ChatCompanion({ active }: { active: boolean }) {
   };
 
   return (
-    <div className="companion-chat">
+    <div className="companion-chat" onKeyDown={(event) => { if (event.key === "Escape" && controlsOpen) setControlsOpen(false); }}>
       <div className="companion-intro"><span className="companion-live-dot" /> A little company, a little help.</div>
       <div className="companion-character">
         <button type="button" className="companion-pet pet" data-state={patted ? "happy" : phase === "thinking" ? (pet.id === "droplet" ? "thinking" : "sleep") : phase === "completed" ? "happy" : "idle"} onClick={pat} aria-label={`Pet ${pet.name}`} title="A little hello">
           <Sprite pet={pet} color={color} accessories={accessories} />
         </button>
-        <div className="companion-controls" role="group" aria-label="Companion controls">
+        <button type="button" className="companion-launcher" onClick={() => setControlsOpen((open) => !open)} aria-label={controlsOpen ? "Hide companion controls" : "Show companion controls"} aria-expanded={controlsOpen} aria-controls="companion-controls" title={controlsOpen ? "Hide controls" : "Show controls"}>⋯</button>
+        <div id="companion-controls" className="companion-controls" role="group" aria-label="Companion controls" hidden={!controlsOpen}>
           <button type="button" onClick={newChat} aria-label="Start a new chat" title="New chat"><Icon name="compose" /></button>
           <span className="companion-divider" />
           <button type="button" onClick={startVoice} aria-label={listening ? "Stop voice input" : "Use voice input"} aria-pressed={listening} disabled={busy} title="Voice input" className={listening ? "is-listening" : ""}><Icon name="voice" /></button>

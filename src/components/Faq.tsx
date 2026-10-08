@@ -12,6 +12,14 @@ const QA: [string, React.ReactNode][] = [
     "It's a Tauri app: a few MB on disk, a transparent overlay drawn by the system webview. It drops to 15 fps when hidden, asleep or on battery, and scans windows less often.",
   ],
   [
+    "Why doesn't my installed app show the newest code?",
+    <>A push to <code>main</code> updates source only. Desktop updates require matching version changes, a new <code>v*</code> tag, and a completed GitHub release containing the installer. Check Settings → About &amp; updates to compare your installed build with the latest published release.</>,
+  ],
+  [
+    "Can I move my website pet into the app?",
+    "Yes. Dress the pet in the Playground, then choose “Send to desktop app.” If the browser blocks the app link, save the setup file and import it from Settings → Pets. Only appearance settings are transferred.",
+  ],
+  [
     "Can it click things I didn't ask for?",
     "No. The overlay is click-through everywhere except the pet's own body and bubble. Window actions only happen when you pick them from the menu, and closing a window always asks for a second confirmation.",
   ],

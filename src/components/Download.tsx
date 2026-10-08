@@ -141,6 +141,9 @@ export default function Download({ os, rel }: { os: Os | null; rel: ReleaseApi }
           Latest public release <span>{release?.tag ?? (state === "loading" ? "…" : "unavailable")}</span> ·{" "}
           <a href={release?.url ?? RELEASES_URL} target="_blank" rel="noopener">release notes ↗</a>
         </p>
+        <p className="mx-auto mt-3 max-w-[620px] text-[13px] text-muted">
+          Download buttons use published GitHub release assets. A source push alone does not update installers; each public app update needs a version tag and completed release build.
+        </p>
       </div>
       {isMobile ? (
         <MobileCta url={typeof window !== "undefined" ? window.location.href : ""} />

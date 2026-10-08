@@ -6,10 +6,11 @@ const FEATURES: [string, string, React.ReactNode, PetAction][] = [
   ["🐾", "Presses real buttons", "Ask it to minimise or close the active window: it walks over, a ring marks the target, the paw reaches out.", "wave"],
   ["🍪", "Feed, pet, throw", "Drop food and it runs to eat. Rest your cursor on it for purrs and hearts. Drag and let go to throw it.", "feed"],
   ["🎮", "Games", <>Obstacle jump and hide &amp; seek — with a win record and milestones that unlock accessories.</>, "toss"],
-  ["🎨", "Make it yours", "Name, colour picker, personality, up to four emoji accessories, a companion pet, or your own picture as a pet.", "spin"],
+  ["🎨", "Make it yours", "Name, colour picker, personality, accessories, a companion, or your own picture. Four-frame sprite sheets can animate custom pets.", "spin"],
   ["⏰", "Break reminders", "Any interval, snooze with a right-click, countdown pill above the pet, optional timed work/break sessions.", "wave"],
-  ["🔇", "Knows when to hush", "Focus mode when a fullscreen app is in front or during your quiet hours; low-power mode on battery.", "sleep"],
-  ["🖥️", "Multi-monitor", <>Stands on the bottom of <em>its</em> screen, keeps to a chosen monitor or edge margin, respects a keep-out area.</>, "dash"],
+  ["🔇", "Adapts to every app", "Set playful, quiet or hidden behavior for each Windows app. Fullscreen focus protection and quiet hours still take priority.", "sleep"],
+  ["💛", "Builds a friendship", "Meals, pats, fetch and games shape each pet's friendship level and mood. Nearby companions greet one another.", "wave"],
+  ["🖥️", "Multi-monitor", <>Stands on the bottom of <em>its</em> screen, keeps to a chosen monitor or edge margin, and respects a keep-out area.</>, "dash"],
 ];
 
 export default function Features() {

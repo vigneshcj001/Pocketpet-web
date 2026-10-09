@@ -3,7 +3,7 @@ import { PETS, type PetId } from "../data/pets";
 import { Ctx, type Accessory, type PetAction, type PetState } from "./context";
 
 export function PetProvider({ children }: { children: ReactNode }) {
-  const [petId, setPetId] = useState<PetId>("droplet");
+  const [petId, setPetId] = useState<PetId>("cat");
   const [color, setColor] = useState<string | null>(null);
   const [accessories, setAccessories] = useState<Accessory[]>([]);
   const [buddyHidden, setBuddyHidden] = useState(false);

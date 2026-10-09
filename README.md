@@ -4,7 +4,7 @@
 
 The download and landing page for [PocketPet](https://github.com/vigneshcj001/Pocketpet),
 a desktop pet for Windows, macOS and Linux. The page runs the app's own
-animal sprites and animations, alongside a blue pixel droplet created for the website companion preview.
+animal sprites and animations in its companion preview.
 
 | | |
 |---|---|
@@ -35,17 +35,17 @@ Requires Node 20+. No environment variables.
 
 ### The pet
 
-The hero opens in **Companion** view: a blue pixel droplet with new-chat,
+The hero opens in **Companion** view: a cat with new-chat,
 voice-input and collapse controls. Try an example or type a task to see
 **Starting your task → Thinking → Completed**, then click the result to read
 the full sample answer. This is a local interaction preview with sample
 answers, not a live AI connection. Voice dictation uses browser speech
 recognition where available and requires microphone permission.
 
-Switch to **Playground** for the original interactive pet demo. The droplet
-is selected by default, with all four original animals still available.
+Switch to **Playground** for the interactive pet demo. Cat
+is selected by default, with duck, panda, and penguin also available.
 Playground keyboard shortcuts apply only while that view is active; keys
-`1`–`5` select the five pets. Dress a pet in Playground, then use **Send to
+`1`–`4` select the four pets. Dress a pet in Playground, then use **Send to
 desktop app** to open its appearance in installed PocketPet. If your browser
 blocks the app link, use **Save setup file** and import that JSON from PocketPet
 Settings → Pets → Import website pet setup.
@@ -55,9 +55,9 @@ Settings → Pets → Import website pet setup.
 | **Hero stage** | The pet follows your cursor (walks near, runs far), sits, dozes off after 18 s, does random antics (yawn, stretch, look around, wander). Click → hearts. Double-click → spin. Drag and release → it flies, falls and squashes on landing. |
 | **Toolbar** | 🐱 🦆 🐼 🐧 pick an animal · 🍪 **Feed** drops its food and it walks over to eat · 🪁 **Toss** throws it · 📦 **Hide** runs behind the notes window and peeks back out · 🎨 opens the dress-up drawer. |
 | **Dress-up** | The app's real colour picker (`src/pet/tint.ts` is a port of `appearance.js`) and eight emoji accessories in hat / face / neck / back / paw slots — one per slot, four at most, same rules as the app. |
-| **Keyboard** | `F` feed · `T` toss · `S` spin · `H` hide · `1`–`5` switch pets (ignored while typing in a field). |
+| **Keyboard** | `F` feed · `T` toss · `S` spin · `H` hide · `1`–`4` switch pets (ignored while typing in a field). |
 | **Site buddy** | Scroll past the hero and the same pet — colour and hat included — walks along the bottom of the window, follows the cursor page-wide, and comments on whichever section you're reading. Click to pat, double-click to jump back to the stage, "Hide pet" to send it away (the app's `Ctrl+Alt+P`). |
-| **Feature cards** | Each card is a button: click "Follows your cursor" and the stage pet dashes; "Stands on your windows" and it hides; "Knows when to hush" and it sleeps. |
+| **Feature cards** | Each card is a button: click "Follows your cursor" and the stage pet dashes; "Stands on your windows" and it hides; "Adapts to every app" and it sleeps. |
 | **Footer** | Your pet, asleep. |
 
 All motion respects `prefers-reduced-motion`.
@@ -87,7 +87,7 @@ All motion respects `prefers-reduced-motion`.
 
 ### Other sections
 
-- **What it does all day** — nine feature cards.
+- **What it does all day** — ten feature cards.
 - **Same pet, three homes** — a Windows / macOS / Linux feature matrix
   (✓ full, ◐ partial, — not available) with footnotes.
 - **It runs errands, too** — the task agent, with a looping demo of a typed
@@ -96,7 +96,7 @@ All motion respects `prefers-reduced-motion`.
   as a timeline, from the same request as Download. Hidden until a release
   exists.
 - **Questions** — FAQ accordion.
-- **Latest app parity** — current v0.2.2 features are represented: per-app pet modes, friendship moods, four-frame custom pet sprite sheets, task recipes/result cards, and website-to-app appearance handoff.
+- **Latest app parity** — current v0.2.3 features are represented: per-app pet modes, friendship moods, four-frame custom pet sprite sheets, task recipes/result cards, and website-to-app appearance handoff.
 - Hero **stats strip** — live stars, forks, licence (only when GitHub detects
   one) and last-push date from the repo API.
 - Light / dark theme: follows the OS, 🌙 toggle overrides, saved in
@@ -157,12 +157,9 @@ variant is defined on `[data-theme="dark"]`.
 
 ## Regenerating the sprites
 
-The original animal entries in `src/data/pets.ts` are generated from the app repo's `src/pets/*.js`.
-The website's droplet is maintained separately in `src/data/droplet.ts`, with
-expressions in `src/pet/droplet.css`. The companion UI lives in
-`src/components/CompanionDemo.tsx` and `src/components/companion.css`.
-The legacy command below overwrites `pets.ts`: preserve its `DROPLET` import,
-record entry, `PetId` member, and `PET_IDS` entry when regenerating. After
+The animal entries in `src/data/pets.ts` are generated from the app repo's `src/pets/*.js`.
+The companion UI lives in `src/components/CompanionDemo.tsx` and
+`src/components/companion.css`. After
 changing a pet there, run from the **PetExt** repo root:
 
 ```bash

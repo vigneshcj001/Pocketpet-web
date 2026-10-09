@@ -184,7 +184,7 @@ export default function PetStage() {
       else if (k === "t") toss();
       else if (k === "s") spin();
       else if (k === "h") hide();
-      else if (/^[1-5]$/.test(k)) choosePet(PET_IDS[Number(k) - 1]);
+      else if (/^[1-4]$/.test(k)) choosePet(PET_IDS[Number(k) - 1]);
     };
     addEventListener("keydown", onKey);
     return () => removeEventListener("keydown", onKey);
@@ -459,7 +459,7 @@ export default function PetStage() {
       )}
 
       <div className="pointer-events-none absolute bottom-[62px] right-4 text-[11px] font-bold text-muted/70 max-sm:hidden">
-        keys: F feed · T toss · S spin · H hide · 1–5 pets
+        keys: F feed · T toss · S spin · H hide · 1–4 pets
       </div>
     </div>
   );

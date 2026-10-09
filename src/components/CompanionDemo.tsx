@@ -162,7 +162,7 @@ function ChatCompanion({ active }: { active: boolean }) {
     <div className="companion-chat" onKeyDown={(event) => { if (event.key === "Escape" && controlsOpen) setControlsOpen(false); }}>
       <div className="companion-intro"><span className="companion-live-dot" /> A little company, a little help.</div>
       <div className="companion-character">
-        <button type="button" className="companion-pet pet" data-state={patted ? "happy" : phase === "thinking" ? (pet.id === "droplet" ? "thinking" : "sleep") : phase === "completed" ? "happy" : "idle"} onClick={pat} aria-label={`Pet ${pet.name}`} title="A little hello">
+        <button type="button" className="companion-pet pet" data-state={patted ? "happy" : phase === "thinking" ? "sleep" : phase === "completed" ? "happy" : "idle"} onClick={pat} aria-label={`Pet ${pet.name}`} title="A little hello">
           <Sprite pet={pet} color={color} accessories={accessories} />
         </button>
         <button type="button" className="companion-launcher" onClick={() => setControlsOpen((open) => !open)} aria-label={controlsOpen ? "Hide companion controls" : "Show companion controls"} aria-expanded={controlsOpen} aria-controls="companion-controls" title={controlsOpen ? "Hide controls" : "Show controls"}>⋯</button>

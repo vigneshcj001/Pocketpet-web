@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
-import { RELEASES_URL, fmtSize, type Os, type useRelease } from "../hooks/useRelease";
+import { MAC_SUFFIX, RELEASES_URL, fmtSize, type MacArch, type Os, type useRelease } from "../hooks/useRelease";
 import { usePet } from "../pet/context";
 
 type ReleaseApi = ReturnType<typeof useRelease>;
@@ -32,6 +32,7 @@ const PLATFORMS: Platform[] = [
     tips: [
       <>SmartScreen may ask once — choose <em>More info → Run anyway</em>.</>,
       <>Needs the WebView2 runtime (already on Windows 11).</>,
+      <>Windows on ARM runs the x64 installer through built-in emulation.</>,
     ],
   },
   {
@@ -45,7 +46,8 @@ const PLATFORMS: Platform[] = [
       { suffix: "_x64.dmg", label: "Intel (.dmg)" },
     ],
     tips: [
-      <>Unsigned build: right-click the app → <em>Open</em> the first time.</>,
+      <>Not notarized: right-click the app → <em>Open</em> the first time.</>,
+      <>“Damaged and can't be opened”? Run <code>xattr -cr /Applications/PocketPet.app</code>.</>,
       <>If hotkeys or cursor-following don't respond, allow it under <em>Privacy &amp; Security → Accessibility</em>.</>,
     ],
   },
@@ -53,15 +55,16 @@ const PLATFORMS: Platform[] = [
     os: "linux",
     name: "Linux",
     sub: "X11 or XWayland · WebKitGTK 4.1 · x86-64",
-    note: "AppImage runs anywhere; the .deb is for Ubuntu 22.04+ and Debian 12+.",
+    note: "AppImage runs anywhere; .deb for Ubuntu 22.04+ / Debian 12+, .rpm for Fedora 39+ / openSUSE.",
     icon: <path fill="currentColor" d="M12 2c-2.4 0-3.7 1.9-3.7 4.3 0 1.2.2 1.9-.3 3-.7 1.3-2.2 3.2-2.5 5.2-.2 1 .1 1.8.5 2.4-.6.3-1.2.7-1.3 1.3-.2 1 .9 1.4 1.8 1.7.6.2 1.4.9 2.2 1.1.8.2 1.3-.3 1.6-.7.5.1 1.2.2 1.7.2s1.2-.1 1.7-.2c.3.4.8.9 1.6.7.8-.2 1.6-.9 2.2-1.1.9-.3 2-.7 1.8-1.7-.1-.6-.7-1-1.3-1.3.4-.6.7-1.4.5-2.4-.3-2-1.8-3.9-2.5-5.2-.5-1.1-.3-1.8-.3-3C15.7 3.9 14.4 2 12 2zm-1.3 4.2c.5 0 .8.6.8 1.3s-.3 1.2-.8 1.2-.8-.5-.8-1.2.3-1.3.8-1.3zm2.6 0c.5 0 .8.6.8 1.3s-.3 1.2-.8 1.2-.8-.5-.8-1.2.3-1.3.8-1.3zM12 9c.9 0 1.9.5 1.9 1s-1 .9-1.9 1.3c-.9-.4-1.9-.8-1.9-1.3s1-1 1.9-1z" />,
     buttons: [
       { suffix: ".AppImage", label: "AppImage", primary: true },
-      { suffix: ".deb", label: ".deb" },
+      { suffix: ".deb", label: ".deb (Debian, Ubuntu)" },
+      { suffix: ".rpm", label: ".rpm (Fedora, openSUSE)" },
     ],
     tips: [
-      <><code>chmod +x PocketPet*.AppImage</code> then run it.</>,
-      <>Click-through needs X11; on pure Wayland the pet blocks clicks.</>,
+      <><code>chmod +x PocketPet*.AppImage</code> then run it. Needs FUSE 2 (<code>libfuse2t64</code> / <code>fuse-libs</code>).</>,
+      <>On Wayland it runs through XWayland automatically, so cursor-following and click-through keep working.</>,
     ],
   },
 ];
@@ -118,7 +121,7 @@ function MobileCta({ url }: { url: string }) {
   );
 }
 
-export default function Download({ os, rel }: { os: Os | null; rel: ReleaseApi }) {
+export default function Download({ os, macArch, rel }: { os: Os | null; macArch: MacArch | null; rel: ReleaseApi }) {
   const { release, state, asset } = rel;
   const { perform } = usePet();
 
@@ -170,13 +173,15 @@ export default function Download({ os, rel }: { os: Os | null; rel: ReleaseApi }
                   <div className="mt-1.5 flex flex-col gap-2">
                     {p.buttons.map((b) => {
                       const a = asset(b.suffix);
+                      // On a Mac whose chip we could detect, highlight that build instead.
+                      const primary = p.os === "mac" && mine && macArch ? b.suffix === MAC_SUFFIX[macArch] : b.primary;
                       return (
                         <a
                           key={b.suffix}
                           href={a?.url ?? (release?.url ?? RELEASES_URL)}
                           title={a ? undefined : "No published build found — opens the releases page"}
                           onClick={() => a && perform("celebrate")}
-                          className={`btn justify-center ${b.primary ? "btn-primary" : ""} ${!a && state !== "loading" ? "opacity-60" : ""}`}
+                          className={`btn justify-center ${primary ? "btn-primary" : ""} ${!a && state !== "loading" ? "opacity-60" : ""}`}
                         >
                           ⬇ {b.label}
                           {a && <span className="text-xs font-semibold opacity-75">{a.tag} · {fmtSize(a.size)}</span>}

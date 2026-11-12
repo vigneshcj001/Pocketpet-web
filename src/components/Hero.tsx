@@ -1,12 +1,17 @@
 import CompanionDemo from "./CompanionDemo";
 import Stats from "./Stats";
-import type { Os } from "../hooks/useRelease";
+import type { MacArch, Os } from "../hooks/useRelease";
 import type { RepoStats } from "../hooks/useRepo";
 
 const OS_LABEL: Record<Os, string> = { windows: "Download for Windows", mac: "Choose your Mac build", linux: "Download for Linux" };
-const OS_SUB: Record<Os, string> = { windows: ".exe installer · 64-bit", mac: ".dmg · Apple Silicon & Intel", linux: "AppImage or .deb" };
+const OS_SUB: Record<Os, string> = { windows: ".exe installer · 64-bit", mac: ".dmg · Apple Silicon & Intel", linux: "AppImage, .deb or .rpm" };
+const MAC_LABEL: Record<MacArch, [string, string]> = {
+  arm: ["Download for Mac", ".dmg · Apple Silicon"],
+  intel: ["Download for Mac", ".dmg · Intel"],
+};
 
-export default function Hero({ os, directUrl, stats, version }: { os: Os | null; directUrl: string | null; stats: RepoStats | null; version: string | null }) {
+export default function Hero({ os, macArch, directUrl, stats, version }: { os: Os | null; macArch: MacArch | null; directUrl: string | null; stats: RepoStats | null; version: string | null }) {
+  const [label, sub] = os === "mac" && macArch && directUrl ? MAC_LABEL[macArch] : os ? [OS_LABEL[os], OS_SUB[os]] : ["Download", "Pick your platform below"];
   return (
     <section className="grid min-h-[calc(100vh-66px)] grid-cols-1 items-center gap-10 py-12 md:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] md:py-16">
       <div className="relative z-10">
@@ -29,8 +34,8 @@ export default function Hero({ os, directUrl, stats, version }: { os: Os | null;
           <a href={directUrl ?? "#download"} className="btn btn-primary">
             <span className="text-[22px] leading-none">⬇</span>
             <span>
-              {os ? OS_LABEL[os] : "Download"}
-              <small className="block text-xs font-semibold leading-tight opacity-80">{os ? OS_SUB[os] : "Pick your platform below"}</small>
+              {label}
+              <small className="block text-xs font-semibold leading-tight opacity-80">{sub}</small>
             </span>
           </a>
           <a href="#features" className="btn bg-transparent">See what it does</a>

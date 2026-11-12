@@ -25,7 +25,7 @@ const QA: [string, React.ReactNode][] = [
   ],
   [
     "How do I uninstall?",
-    <>Windows: Settings → Apps. macOS: drag the app to the Trash. Linux: delete the AppImage or <code>sudo apt remove pocket-pet</code>. Your settings live in the app data folder — Settings → Backup can export them first.</>,
+    <>Windows: Settings → Apps. macOS: drag the app to the Trash. Linux: delete the AppImage, or remove the package (<code>sudo apt remove pocket-pet</code> / <code>sudo dnf remove pocket-pet</code>). Your settings live in the app data folder — Settings → Backup can export them first.</>,
   ],
 ];
 

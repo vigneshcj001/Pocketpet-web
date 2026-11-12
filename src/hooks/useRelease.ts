@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 export type Os = "windows" | "mac" | "linux";
+export type MacArch = "arm" | "intel";
 
 export interface Asset {
   name: string;
@@ -48,8 +49,61 @@ export function detectOs(): Os | null {
   return null;
 }
 
+/**
+ * Apple Silicon or Intel, when the browser can tell. Chromium browsers answer
+ * through User-Agent Client Hints; Firefox and Chrome expose the GPU name
+ * (an "Apple M…" GPU means Apple Silicon). Safari reports "Apple GPU" on every
+ * Mac, so it stays unknown there and the visitor picks the build.
+ */
+export async function detectMacArch(): Promise<MacArch | null> {
+  const nav = navigator as Navigator & {
+    userAgentData?: { getHighEntropyValues?: (hints: string[]) => Promise<{ architecture?: string }> };
+  };
+  try {
+    const hints = await nav.userAgentData?.getHighEntropyValues?.(["architecture"]);
+    if (hints?.architecture) return hints.architecture.toLowerCase() === "arm" ? "arm" : "intel";
+  } catch {
+    // Client hints refused; fall through to the GPU check.
+  }
+  try {
+    const gl = document.createElement("canvas").getContext("webgl");
+    const info = gl?.getExtension("WEBGL_debug_renderer_info");
+    const renderer = gl && info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : "";
+    if (/Apple M\d/i.test(renderer)) return "arm";
+    if (/Intel|AMD|Radeon|NVIDIA/i.test(renderer)) return "intel";
+  } catch {
+    // No WebGL; leave the choice to the visitor.
+  }
+  return null;
+}
+
+/** Resolves the Mac architecture after mount; null elsewhere or when unknown. */
+export function useMacArch(os: Os | null): MacArch | null {
+  const [arch, setArch] = useState<MacArch | null>(null);
+  useEffect(() => {
+    if (os !== "mac") return;
+    let cancelled = false;
+    detectMacArch().then((value) => {
+      if (!cancelled) setArch(value);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [os]);
+  return arch;
+}
+
+export const MAC_SUFFIX: Record<MacArch, string> = { arm: "_aarch64.dmg", intel: "_x64.dmg" };
+
 /** The file each platform's main download button points at. */
 export const PRIMARY_SUFFIX: Record<Os, string> = { windows: "-setup.exe", mac: "_aarch64.dmg", linux: ".AppImage" };
+
+/** The single file to offer this visitor, or null when they must choose. */
+export function primarySuffix(os: Os | null, macArch: MacArch | null): string | null {
+  if (!os) return null;
+  if (os === "mac") return macArch ? MAC_SUFFIX[macArch] : null;
+  return PRIMARY_SUFFIX[os];
+}
 
 export const fmtSize = (bytes: number) =>
   bytes > 1e6 ? `${(bytes / 1e6).toFixed(1)} MB` : `${Math.round(bytes / 1e3)} KB`;

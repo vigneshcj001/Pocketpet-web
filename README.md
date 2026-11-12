@@ -65,9 +65,13 @@ All motion respects `prefers-reduced-motion`.
 ### Downloads
 
 - Three cards: **Windows** (`.exe` installer), **macOS** (Apple Silicon and
-  Intel `.dmg`), **Linux** (`.AppImage` and `.deb`).
+  Intel `.dmg`), **Linux** (`.AppImage`, `.deb` and `.rpm`).
 - The visitor's OS is detected from the user agent; that card is marked
   *Recommended for you* and the hero button becomes "Download for …".
+- On a Mac the page also tries to tell Apple Silicon from Intel (User-Agent
+  Client Hints in Chromium browsers, otherwise the WebGL GPU name). When it
+  can, that `.dmg` becomes the highlighted button and the hero links to it
+  directly; Safari hides the chip, so there the visitor picks.
 - On load the page asks the GitHub Releases API for the latest release and
   points every button at the exact asset (with file size). Assets are matched
   by suffix:
@@ -79,6 +83,7 @@ All motion respects `prefers-reduced-motion`.
   | macOS Intel | `_x64.dmg` |
   | Linux AppImage | `.AppImage` |
   | Linux deb | `.deb` |
+  | Linux rpm | `.rpm` |
 
   These are what Tauri's bundler produces in the app's CI workflow. No release
   yet, offline, or rate-limited → buttons fall back to the releases page.
